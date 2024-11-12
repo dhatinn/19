@@ -1,0 +1,3 @@
+function goToVideo() {
+    window.location.href = 'videooo.html'; // Mengarahkan ke videooo.html
+}

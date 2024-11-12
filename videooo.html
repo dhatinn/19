@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet"> <!-- Menambahkan font Montserrat Bold -->
+    <style>
+        body {
+            margin: 0;
+            background-color: black;
+            display: flex;
+            flex-direction: column; /* Mengatur konten dalam kolom */
+            align-items: center; /* Memusatkan konten secara horizontal */
+            overflow-y: auto; /* Mengizinkan scroll vertikal */
+            font-family: 'Roboto', sans-serif; /* Mengatur font menjadi Roboto */
+        }
+        header {
+            color: white; /* Warna teks header */
+            font-family: 'Montserrat', sans-serif; /* Mengatur font header menjadi Montserrat */
+            font-weight: bold; /* Mengatur font header menjadi tebal */
+            font-size: 24px; /* Ukuran font header */
+            margin: 20px 0; /* Jarak atas dan bawah untuk header */
+            text-align: center; /* Memusatkan teks header */
+        }
+        .video-container {
+            display: grid;
+            grid-template-columns: 1fr; /* Satu kolom untuk semua perangkat */
+            grid-template-rows: auto auto; /* Dua baris untuk video landscape */
+            width: 100%; /* Mengatur lebar kontainer video */
+            height: auto; /* Tinggi otomatis untuk konten video */
+            box-sizing: border-box; /* Memastikan padding termasuk dalam ukuran */
+        }
+        .video {
+            width: 100%; /* Mengatur lebar video agar memenuhi kolom */
+            height: auto; /* Tinggi otomatis untuk menjaga rasio aspek */
+            object-fit: cover; /* Memastikan video tidak terdistorsi */
+            margin: 0; /* Menghapus jarak antar video */
+        }
+        .footer {
+            color: white; /* Warna teks putih */
+            font-family: 'Montserrat', sans-serif; /* Mengatur font header menjadi Montserrat */
+            font-weight: bold; /* Mengatur font header menjadi tebal */
+            font-size: 18px; /* Ukuran font tetap 18px */
+            margin-top: 50px; /* Jarak atas untuk footer dari video */
+            margin-bottom: 50px; /* Jarak bawah untuk footer dari bagian bawah halaman */
+            text-align: center; /* Memusatkan teks */
+            width: 100%; /* Mengatur lebar footer */
+        }
+        .footer img {
+            width: 18%; /* Atur lebar gambar menjadi 20% dari lebar footer */
+            height: auto; /* Tinggi otomatis untuk menjaga rasio aspek */
+            display: block; /* Menghapus jarak bawah gambar */
+            margin:auto; /* Memusatkan gambar */
+        }
+    </style>
+</head>
+<body>
+    
+    <header>
+        VIDEO
+    </header>
+
+    <div class="video-container">
+        <!-- Video Landscape -->
+        <video class="video" src="vid1.mp4" autoplay loop muted playsinline></video>
+        <video class="video" src="vid4.mp4" autoplay loop muted playsinline></video>
+        
+        <!-- Video Potret -->
+        <video class="video" src="vid2.mp4" autoplay loop muted playsinline></video>
+        <video class="video" src="vid3.mp4" autoplay loop muted playsinline></video>
+    </div>
+
+    <div class="footer">
+        <img src="footer.png" alt="Footer Image"> <!-- Menambahkan gambar di footer -->
+        jaga kesehatan lagi<div>
+        musim ujan wkwk<div>
+        <div>
+    </div>
+
+    <!-- Backsound -->
+    <audio src="backsoundvid.mp3" autoplay loop></audio>
+
+</body>
+</html>

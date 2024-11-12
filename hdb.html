@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>19!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: rgb(0, 0, 0);
+            color: white;
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            flex-direction: column;
+        }
+        .hearts, .photos {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            opacity: 0; /* Initially hidden */
+            animation: fadeIn 3s ease-in-out forwards; /* Fade in animation */
+            animation-delay: 1s; /* Start after overlay disappears */
+        }
+        .heart {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background-color: var(--heart-color, #ff69b48d); /* Default pink color */
+            transform: rotate(calc(-45deg + var(--random-rotation)));
+            animation: float var(--animation-duration) linear infinite;
+            opacity: 0.5;
+            bottom: -200px; /* Start from far below the viewport */
+        }
+        .heart::before,
+        .heart::after {
+            content: "";
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background-color: var(--heart-color, #ff69b4a3); /* Default pink color */
+            border-radius: 100%;
+        }
+        .heart::before {
+            top: -25px;
+            left: 0;
+        }
+        .heart::after {
+            left: 25px;
+            top: 0;
+        }
+        .heart:nth-child(2n) {
+            opacity: 0.2;
+        }
+        .heart:nth-child(3n) {
+            opacity: 0.3;
+        }
+        .heart:nth-child(4n) {
+            opacity: 0.4;
+        }
+        .heart:nth-child(5n) {
+            opacity: 0.5;
+        }
+        .photo {
+            position: absolute;
+            width: 100px; /* Larger size for photos */
+            height: 100px; /* Larger size for photos */
+            background-color: rgb(0, 0, 0);
+            animation: floatPhoto 25s linear infinite; /* Slower animation for photos */
+            opacity: 1; /* No transparency */
+            bottom: -200px; /* Start from far below the viewport */
+        }
+        .photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(calc(-45deg + var(--random-rotation))) scale(0.5);
+                opacity: 0;
+            }
+            15% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-150vh) translateX(var(--random-direction)) rotate(calc(-45deg + var(--random-rotation))) scale(1);
+                opacity: 0;
+            }
+        }
+        @keyframes floatPhoto {
+            0% {
+                transform: translateY(0) scale(0.5);
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-150vh) scale(1);
+                opacity: 0;
+            }
+        }
+        @keyframes fadeIn {
+            0% {
+                opacity: 0 }
+            100% {
+                opacity: 1;
+            }
+        }
+        @keyframes fadeOut {
+            0% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+        @keyframes textFloat {
+            0% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+        @keyframes moveUp {
+            0% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+            100% {
+                transform: translateY(-50);
+            }
+        }
+        .overlay {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: black;
+            z-index: 2;
+            animation: fadeOut 5s ease-in-out forwards;
+        }
+        .message {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            animation: fadeIn 3s ease-in-out, moveUp 10s forwards;
+            animation-delay: 0s; /* Start after overlay disappears */
+            text-transform: lowercase; /* Make all text lowercase */
+            color: #ffffff;
+        }
+        .additional-message {
+            display: none;
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            font-size: 12px; /* Smaller font size */
+            margin-top: 10px;
+            padding: 50px;
+            background-color: rgba(99, 40, 40, 0);
+            border-radius: 10px;
+            animation: fadeIn 6s forwards, moveDown 8s forwards; /* Add move down animation */
+        }
+        @keyframes moveDown {
+            0% {
+                transform: translateY(-20%);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+        .button-container {
+            display: none;
+            position: relative;
+            z-index: 3; /* Ensure the button is on top */
+            margin-top: 20px;
+        }
+        .button-container button {
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            background-color: #FF69B4;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        audio {
+            display: none; /* Hide the audio player */
+        }
+    </style>
+</head>
+<body>
+     <div class="hearts">
+        <script>
+            function createHeart() {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.style.left = `${Math.random() * 150}%`;
+                heart.style.animationDelay = `${Math.random() * 5}s`;
+                heart.style.setProperty('--random-rotation', `${Math.random() * 45}deg`);
+                heart.style.setProperty('--animation-duration', `${Math.random() * 11 + 18}s`); // Random duration between 10s and 15s
+                heart.style.setProperty('--random-direction', `${Math.random() * 20 - 10}vw`); // Random direction between -10vw and 10vw
+                heart.style.setProperty('--heart-color', Math.random() > 0.5 ? '#FF69B4' : '#FF1493'); // Random color between pink and deep pink
+                document.querySelector('.hearts').appendChild(heart);
+
+                // Remove the heart after the animation duration to keep the DOM clean
+                setTimeout(() => {
+                    heart.remove();
+                }, parseFloat(heart.style.getPropertyValue('--animation-duration')) * 1500);
+            }
+
+            // Continuously create hearts
+            setInterval(createHeart, 150); // Adjust the interval as needed
+        </script>
+    </div>
+    <div class="photos">
+        <script>
+            const photoUrls = [
+                "11.jpg",
+                "22.jpg",
+                "33.jpg",
+                "44.jpg",
+                "55.jpg",
+                "66.jpg",
+                "77.jpg",
+                "88.jpg",
+                "99.jpg",
+                "1010.jpg"
+            ];
+
+            let delay = 0;
+            for (let i = 0; i < photoUrls.length; i++) {
+                const photo = document.createElement('div');
+                photo.className = 'photo';
+                photo.style.left = `${Math.random() * 100}%`;
+                photo.style.animationDelay = `${delay}s`;
+                delay += 5; // Add a delay of 2 seconds between each photo
+                const img = document.createElement('img');
+                img.src = photoUrls[i];
+                img.alt = `Placeholder image ${i + 1}`;
+                photo.appendChild(img);
+                document.querySelector('.photos').appendChild(photo);
+            }
+        </script>
+    </div>
+    <div class="message" id="main-message">
+        happy birthday<br>
+        jilan afanin putri
+    </div>
+    <div class="additional-message" id="additional-message">
+        Selamat ulang tahun buat kamu yang ke 19 yeey(tua),
+        Semoga sehat selalu, dilancarkan rezekinya , dan bahagia selalu.
+        Tetap semangat buat menjalani hari-harinya. Oiya traktirannya kapannnnn woiiii
+    </div>
+    <div class="button-container" id="button-container">
+        <button onclick="window.location.href='videooo.html'">Amin</button>
+    </div>
+    <div class="overlay"></div>
+    <audio id="background-music" src="songbackground.mp3" autoplay loop></audio>
+
+    <script>
+       setTimeout(() => {
+            const mainMessage = document.getElementById('main-message');
+            mainMessage.style.animation = 'moveUp 5s forwards'; // Move up slowly
+
+            setTimeout(() => {
+                const additionalMessage = document.getElementById('additional-message');
+                additionalMessage.style.display = 'block';
+                additionalMessage.style.animation = 'fadeIn 4s forwards, moveDown 4s forwards';
+            }, 8000); // Delay for the additional message to appear after the main message moves up
+        }, 10000); // Delay for 10 seconds before moving the main message up
+
+        setTimeout(() => {
+            const buttonContainer = document.getElementById('button-container');
+            buttonContainer.style.display = 'block';
+            buttonContainer.style.animation = 'fadeIn 10s forwards, moveDown 10s forwards';
+        }, 20000); // Delay for 20 seconds before showing the button
+    </script>
+</body>
+</html>
